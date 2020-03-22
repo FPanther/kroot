@@ -49,5 +49,5 @@ fn main() {
         println!("{:?}", cmd_status.code());
         panic!("Python script did not exit with 0 status")
     }
-    println!("Doucments were produced successfully at {}", args[1]);
+    println!("Doucments were produced successfully at {}", args[2]);
 }
