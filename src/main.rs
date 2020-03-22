@@ -1,12 +1,15 @@
 // command line arguments: 
-//NAME: orth_to_surprisals
-// SUMMARY: script for running python functions successively 
+// NAME: orthography_to_surprisals
+// SUMMARY: script for running python functions successively to begin with a document with a 'words' column with
+//          orthographic forms, and produces an information theoretic analysis of the phonotactics of these words.
+// INPUT ARGUMENTS: use command line arguments which produce the following values:
 // args[0] - this file
 // args[1] - python compiler, e.g. "~\\Python\\Python38-32\\python.exe"
 // args[2] - folder which contains kroot.csv e.g. "~\\Chapters\\Minimal_Root\\tables"
 // args[3] - folder which contains py scripts kComp, kEntropy, 
 //              kSurprisal lex_io, orth_to_ipa.py, produce_segmental_configurations_list.py.
 //           e.g. "~\\src\\py"
+// HISTORY: Created 22-MAR-20 by Forrest Panther. Refer to commits for further details.
 use std::env;
 use std::process;
 
