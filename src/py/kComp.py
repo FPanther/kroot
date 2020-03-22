@@ -3,7 +3,6 @@ import sys
 import lex_io
 import kEntropy
 import kSurprisal
-import kTest.test_kEntropy as kt
 import os
 
 
@@ -11,15 +10,6 @@ def test_module(syl_lex_dir, cons_config_dir):
     # prepare documents
     syl_lex = lex_io.read_lexicon_file(syl_lex_dir)
     cons_configs = lex_io.read_lexicon_file(cons_config_dir)
-
-    # prepare surprisal document
-    freq_dict = kEntropy.get_frequency_of_each_config_in_word_position(syl_lex, cons_configs)
-    phonol_surprisals = kEntropy.get_phonotactic_surprisals(freq_dict)
-
-    kt.test_get_frequency_of_each_config_in_word_position(syl_lex, cons_configs)
-
-    kt.test_get_surprisals_of_lexicon(["ŋkəḻ.ṯə.lə"], phonol_surprisals)
-
 
 def main(syl_lex_dir, seg_config_dir):
     syl_lex = lex_io.read_lexicon_file(syl_lex_dir)

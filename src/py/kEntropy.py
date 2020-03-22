@@ -6,8 +6,6 @@ EMAIL: forrestapanther@gmail.com
 SUMMARY: Contains functions which produce the entropy value of each phonotactic position (Onset, Nucleus, Coda) of syllables
     in a set of syllabified lexemes.
 """
-
-from kDifference import split_syllable_into_positions as split_syl
 from math import log
 import re
 

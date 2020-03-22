@@ -15,13 +15,13 @@ def main(in_path, rules_path):
     # for each item 'word' column in the in_doc, convert to phon
     phons = []
     phon_syls = []
-    for index, row in in_doc.iterrows():
+    for _index, row in in_doc.iterrows():
         in_phon = row['words']
-        for rule_index, rule_row in phon_rules.iterrows():
+        for _rule_index, rule_row in phon_rules.iterrows():
             in_phon = re.sub(rule_row['original'], rule_row['result'], in_phon)
         phons.append(in_phon)
         # create syllabified form with in_syl
-        for syl_index, syl_row in syl_rules.iterrows():
+        for _syl_index, syl_row in syl_rules.iterrows():
             pattern = re.compile(syl_row['original'])
             in_phon = pattern.sub(syl_row['result'], in_phon)
         phon_syls.append(in_phon)
