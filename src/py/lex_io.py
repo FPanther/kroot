@@ -32,7 +32,7 @@ def read_csv(dir):
 
 
 def write_dict_to_csv(out_dict, output_name, out_dir):
-    with open(out_dir + "\\" + output_name + ".csv", 'w', encoding="utf-8") as output:
+    with open(out_dir + "\\" + output_name + ".csv", 'w', encoding="utf-8", newline='') as output:
         w = csv.DictWriter(output, out_dict[0].keys())
         w.writeheader()
         w.writerows(out_dict)

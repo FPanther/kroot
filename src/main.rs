@@ -6,9 +6,7 @@
 // args[0] - this file
 // args[1] - python compiler, e.g. "~\\Python\\Python38-32\\python.exe"
 // args[2] - folder which contains kroot.csv e.g. "~\\Chapters\\Minimal_Root\\it_data"
-// args[3] - folder which contains py scripts kComp, kEntropy, 
-//              kSurprisal lex_io, orth_to_ipa.py, produce_segmental_configurations_list.py.
-//           e.g. "~\\src\\py"
+// args[3] - folder which contains py scripts, e.g. "~\\src\\py"
 // HISTORY: Created 22-MAR-20 by Forrest Panther. Refer to commits for further details.
 use std::env;
 use std::process;
