@@ -1,5 +1,5 @@
 """
-NAME: get_info_theory_docs.py
+NAME: produce_info_theory_docs.py
 CREATED: 16-JAN-20
 LAST EDIT: 23-MAR-20
 CREATOR: Forrest Panther (Fpan020)

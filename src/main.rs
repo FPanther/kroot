@@ -26,7 +26,7 @@ fn main() {
 
     //set relevant strings
     let orth_to_ipa_dir = args[3].to_string() + "\\orth_to_ipa.py";
-    let kcomp_dir = args[3].to_string() + "\\get_info_theory_docs.py";
+    let kcomp_dir = args[3].to_string() + "\\produce_info_theory_docs.py";
     let seg_config_dir = args[3].to_string() + "\\produce_segmental_configurations_list.py";
 
     //orth to ipa procedure
