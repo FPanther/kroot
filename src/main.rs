@@ -1,5 +1,5 @@
 // command line arguments: 
-// NAME: orthography_to_surprisals
+// NAME: kroot
 // SUMMARY: script for running python functions successively to begin with a document with a 'words' column with
 //          orthographic forms, and produces an information theoretic analysis of the phonotactics of these words.
 // INPUT ARGUMENTS: use command line arguments which produce the following values:

@@ -1,5 +1,5 @@
 [package]
-name = "orthography_to_surprisals"
+name = "kroot"
 version = "0.1.0"
 authors = ["Fpan020 <40954356+Fpan020@users.noreply.github.com>"]
 edition = "2018"
