@@ -2,6 +2,8 @@
 import sys
 import re
 import os
+from pathlib import Path
+
 
 def main(syl_txt_dir):
     # create flat syllable list

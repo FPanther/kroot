@@ -1,19 +1,33 @@
 """
-NAME: kEntropy.py
+NAME: info_theory_functions.py
 CREATED: 16-JAN-20
+LAST EDIT: 23-MAR-20
 CREATOR: Forrest Panther
 EMAIL: forrestapanther@gmail.com
-SUMMARY: Contains functions which produce the entropy value of each phonotactic position (Onset, Nucleus, Coda) of syllables
-    in a set of syllabified lexemes.
+PROJECT: Orthography to Surprisals
+SUMMARY: Contains functions relevant to the information theoretic analysis of Kaytetye syllabified roots.
+FUNCTIONS:
+    _update_dict
+    _get_max_syl_count
+    _get_frequency_of_segment_in_list
+    _split_syllable_into_phonotactic_positions
+    _get_frequency_of_configurations_in_syllable
+    _get_phonotactic_entropy
+    _get_phonotactic_surprisal
+    _get_surprisal_of_syllable
+    get_frequency_of_each_config_in_word_position
+    get_phontactic_entropies
+    get_surprisals_of_lexicon
+    get_phonotactic_surprisals
 """
 from math import log
 import re
 
 
 ##########################################
-# GENERAL FUNCTIONS
+# Private Functions
 ##########################################
-def update_dict(dict_1, dict_2):
+def _update_dict(dict_1, dict_2):
     """
     Combines the two provided Dictionaries
     """
@@ -23,7 +37,7 @@ def update_dict(dict_1, dict_2):
     return new_dict
 
 
-def get_max_syl_count(lexicon):
+def _get_max_syl_count(lexicon):
     """
     Counts the length of all words in the input syllabified lexicon, and returns the longest word (in terms of syllables)
     in the lexicon.
@@ -35,28 +49,14 @@ def get_max_syl_count(lexicon):
     return max_syl
 
 
-def get_ksegments(feature_dict):
-    """
-    Retrieves all the segments which are listed in the phonological features dictionary.
-    """
-    kseg_list = []
-    for row in feature_dict:
-        kseg_list.append(row['segment'])
-    return kseg_list
-
-
-def get_frequency_of_segment_in_list(seg, seg_list):
+def _get_frequency_of_segment_in_list(seg, seg_list):
     """
     Counts the frequency of a given segment or token in a list of segments/tokens.
     """
     return seg_list.count(seg)
 
 
-##########################################
-# FUNCTIONS RELATING TO PHONOTACTIC ANALYSIS
-##########################################
-
-def split_syllable_into_phonotactic_positions(syllable):
+def _split_syllable_into_phonotactic_positions(syllable):
     """
     Takes an input syllable, and outputs a three-member list. The first member is the onset. The second member is the
     nucleus. The third member is the coda.
@@ -88,7 +88,7 @@ def split_syllable_into_phonotactic_positions(syllable):
     return [onset, nucleus, coda]
 
 
-def get_frequency_of_configurations_in_syllable(lexicon, seg_list, syllable_number, get_final_syllables):
+def _get_frequency_of_configurations_in_syllable(lexicon, seg_list, syllable_number, get_final_syllables):
     """
     Gets the frequency of each segment in seg_list for each phonotactic position in the syllable number for each word
     in the lexicon. If syllable_number == 1, the frequency of all the segments in seg_list are retrieved for
@@ -113,18 +113,18 @@ def get_frequency_of_configurations_in_syllable(lexicon, seg_list, syllable_numb
             if syllable_number < len(lex_split):
                 # special behaviour if it is the final syllable. Only take onset!
                 if syllable_number == len(lex_split) - 1:
-                    lex_syl = split_syllable_into_phonotactic_positions(lex_split[syllable_number])
+                    lex_syl = _split_syllable_into_phonotactic_positions(lex_split[syllable_number])
                     onset.append(lex_syl[0])
                 else:
-                    lex_syl = split_syllable_into_phonotactic_positions(lex_split[syllable_number])
+                    lex_syl = _split_syllable_into_phonotactic_positions(lex_split[syllable_number])
 
                     onset.append(lex_syl[0])
                     nucleus.append(lex_syl[1])
                     coda.append(lex_syl[2])
         for seg in seg_list:
-            in_list = [get_frequency_of_segment_in_list(seg, onset),
-                       get_frequency_of_segment_in_list(seg, nucleus),
-                       get_frequency_of_segment_in_list(seg, coda)]
+            in_list = [_get_frequency_of_segment_in_list(seg, onset),
+                       _get_frequency_of_segment_in_list(seg, nucleus),
+                       _get_frequency_of_segment_in_list(seg, coda)]
             output_dict[seg] = in_list
         return output_dict
     # final syllable behaviour. This ignores the onset and only takes final nucleus and coda (coda is always empty)
@@ -137,7 +137,7 @@ def get_frequency_of_configurations_in_syllable(lexicon, seg_list, syllable_numb
 
         for lexeme in lexicon:
             lex_split = lexeme.split(".")
-            lex_syl = split_syllable_into_phonotactic_positions(lex_split[len(lex_split) - 1])
+            lex_syl = _split_syllable_into_phonotactic_positions(lex_split[len(lex_split) - 1])
 
             nucleus.append(lex_syl[1])
             coda.append(lex_syl[2])
@@ -145,32 +145,13 @@ def get_frequency_of_configurations_in_syllable(lexicon, seg_list, syllable_numb
         # for each set of nucleus and coda, get the frequency of each configuration. Coda is expected to only
         # have 0, and this feature can be used for debugging of this function.
         for seg in seg_list:
-            in_list = [get_frequency_of_segment_in_list(seg, nucleus),
-                       get_frequency_of_segment_in_list(seg, coda)]
+            in_list = [_get_frequency_of_segment_in_list(seg, nucleus),
+                       _get_frequency_of_segment_in_list(seg, coda)]
             output_dict[seg] = in_list
         return output_dict
 
 
-def get_frequency_of_each_config_in_word_position(lexicon, config_list):
-    """
-    For the input syllabified lexicon and list of segmental configurations, this function counts the occurrences
-    of these segments according to phonotactic positions.
-    """
-    new_dict = None
-    for syl_num in range(0, get_max_syl_count(lexicon)):
-        seg_dict = get_frequency_of_configurations_in_syllable(lexicon, config_list, syl_num, False)
-        if syl_num > 0:
-            new_dict = update_dict(new_dict, seg_dict)
-        else:
-            new_dict = seg_dict
-    # assign final syllable
-    final_dict = get_frequency_of_configurations_in_syllable(lexicon, config_list, -1, True)
-    new_dict = update_dict(new_dict, final_dict)
-    output_dict_list = [dict(zip(new_dict, t)) for t in zip(*new_dict.values())]
-    return output_dict_list
-
-
-def get_phonotactic_entropy(k_row):
+def _get_phonotactic_entropy(k_row):
     """
     Calculate entropy of a position by summing the probability * positive log probability value of each possible
     configuration.
@@ -208,18 +189,7 @@ def get_phonotactic_entropy(k_row):
     return output_row
 
 
-def get_phontactic_entropies(fq_dict):
-    """
-    This function retrieves the entropy of each row in the output of get_frequency_of_each_config_in_word_position.
-    Look at documentation for sub-functions for further details.
-    """
-    entropys = []
-    for row in fq_dict:
-        entropys.append(get_phonotactic_entropy(row))
-    return entropys
-
-
-def get_phonotactic_surprisal(fq_row):
+def _get_phonotactic_surprisal(fq_row):
     """
     Gets surprisals for each segment in row.
     """
@@ -244,6 +214,80 @@ def get_phonotactic_surprisal(fq_row):
     return surprisal_row
 
 
+def _get_surprisal_of_syllable(syl, num, word_len, sur_dict_list):
+    surprisal_in_positions = [0] * 3
+    syl_poss = _split_syllable_into_phonotactic_positions(syl)
+    for k_row in sur_dict_list:
+        # special behaviour if final syllable
+        if num == word_len - 1:
+            if k_row["syllable"] == str(num) + "_onset":
+                surprisal_in_positions[0] = float(k_row[syl_poss[0]])
+            elif k_row["syllable"] == "final_nucleus":
+                surprisal_in_positions[1] = float(k_row[syl_poss[1]])
+            elif k_row["syllable"] == "final_coda":
+                # final coda will always be 0, and is factored out of calculation
+                surprisal_in_positions[2] = float(k_row[syl_poss[2]])
+        else:
+            if k_row["syllable"] == str(num) + "_onset":
+                surprisal_in_positions[0] = float(k_row[syl_poss[0]])
+            elif k_row["syllable"] == str(num) + "_nucleus":
+                surprisal_in_positions[1] = float(k_row[syl_poss[1]])
+            elif k_row["syllable"] == str(num) + "_coda":
+                surprisal_in_positions[2] = float(k_row[syl_poss[2]])
+
+    return sum(surprisal_in_positions)
+
+
+##########################################
+# Public Functions
+##########################################
+
+def get_frequency_of_each_config_in_word_position(lexicon, config_list):
+    """
+    For the input syllabified lexicon and list of segmental configurations, this function counts the occurrences
+    of these segments according to phonotactic positions.
+    """
+    new_dict = None
+    for syl_num in range(0, _get_max_syl_count(lexicon)):
+        seg_dict = _get_frequency_of_configurations_in_syllable(lexicon, config_list, syl_num, False)
+        if syl_num > 0:
+            new_dict = _update_dict(new_dict, seg_dict)
+        else:
+            new_dict = seg_dict
+    # assign final syllable
+    final_dict = _get_frequency_of_configurations_in_syllable(lexicon, config_list, -1, True)
+    new_dict = _update_dict(new_dict, final_dict)
+    output_dict_list = [dict(zip(new_dict, t)) for t in zip(*new_dict.values())]
+    return output_dict_list
+
+
+def get_phontactic_entropies(fq_dict):
+    """
+    This function retrieves the entropy of each row in the output of get_frequency_of_each_config_in_word_position.
+    Look at documentation for sub-functions for further details.
+    """
+    entropys = []
+    for row in fq_dict:
+        entropys.append(_get_phonotactic_entropy(row))
+    return entropys
+
+
+def get_surprisals_of_lexicon(syl_lex, sur_dict_list):
+    out_dict_list = []
+    for lexeme in syl_lex:
+        lex_sylab = lexeme.split(".")
+        surprisal_value = 0
+        out_dict = {}
+        for i, syl in enumerate(lex_sylab):
+            surprisal_value = surprisal_value + _get_surprisal_of_syllable(syl, i, len(lex_sylab), sur_dict_list)
+        out_dict["phoneme"] = lexeme
+        out_dict["mean_surprisal"] = surprisal_value / (
+                (len(lex_sylab) * 3) - 1)  # three phonotactic positions for each
+        # syllable excluding final coda
+        out_dict_list.append(out_dict)
+    return out_dict_list
+
+
 def get_phonotactic_surprisals(fq_dict):
     """
     For each row in dict, gets surprisal of each configuration. This is calculated by getting the probability of the
@@ -252,5 +296,5 @@ def get_phonotactic_surprisals(fq_dict):
     """
     surprisal_dict = []
     for row in fq_dict:
-        surprisal_dict.append(get_phonotactic_surprisal(row))
+        surprisal_dict.append(_get_phonotactic_surprisal(row))
     return surprisal_dict

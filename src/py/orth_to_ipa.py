@@ -4,9 +4,13 @@ import pandas as ps
 import re
 import sys
 import os
+from pathlib import Path
 
 
 def main(in_path, rules_path):
+    out_dir = os.path.dirname(in_path) + "\\py_outputs"
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+
     in_doc = ps.read_csv(in_path, keep_default_na=False)  # read in target doc
     rules = ps.read_csv(rules_path, keep_default_na=False)  # read in rule doc
     # get phonological rules
@@ -29,12 +33,12 @@ def main(in_path, rules_path):
     out_doc = in_doc
     out_doc['phon'] = phons
     out_doc['phon_syl'] = phon_syls
-    out_doc.to_csv(os.path.dirname(in_path) + "\\output.csv", encoding="utf-8")
+    out_doc.to_csv(out_dir + "\\output.csv", encoding="utf-8")
 
     # output txt documents
-    with open(os.path.dirname(in_path) + "\\phon.txt", 'w', encoding="utf-8") as f:
+    with open(out_dir + "\\phon.txt", 'w', encoding="utf-8") as f:
         f.write('\n'.join(phons))
-    with open(os.path.dirname(in_path) + "\\phon_syls.txt", 'w', encoding="utf-8") as f:
+    with open(out_dir + "\\phon_syls.txt", 'w', encoding="utf-8") as f:
         f.write('\n'.join(phon_syls))
 
 

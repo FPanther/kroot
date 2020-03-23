@@ -5,13 +5,14 @@
 // INPUT ARGUMENTS: use command line arguments which produce the following values:
 // args[0] - this file
 // args[1] - python compiler, e.g. "~\\Python\\Python38-32\\python.exe"
-// args[2] - folder which contains kroot.csv e.g. "~\\Chapters\\Minimal_Root\\tables"
+// args[2] - folder which contains kroot.csv e.g. "~\\Chapters\\Minimal_Root\\it_data"
 // args[3] - folder which contains py scripts kComp, kEntropy, 
 //              kSurprisal lex_io, orth_to_ipa.py, produce_segmental_configurations_list.py.
 //           e.g. "~\\src\\py"
 // HISTORY: Created 22-MAR-20 by Forrest Panther. Refer to commits for further details.
 use std::env;
 use std::process;
+use std::fs;
 
 fn main() {
    let args: Vec<String> = env::args().collect();
@@ -19,10 +20,13 @@ fn main() {
     if args.len() != 4 {
         panic!("Wrong number of command line arguments!")
     }
-    //set relevant strings
+    //create py_outputs dir if it does not exist
+    let py_output_dir = args[2].to_string() + "\\py_outputs";
+    fs::create_dir_all(&py_output_dir).expect("Error creating py_outputs directory!");
 
+    //set relevant strings
     let orth_to_ipa_dir = args[3].to_string() + "\\orth_to_ipa.py";
-    let kcomp_dir = args[3].to_string() + "\\kComp.py";
+    let kcomp_dir = args[3].to_string() + "\\get_info_theory_docs.py";
     let seg_config_dir = args[3].to_string() + "\\produce_segmental_configurations_list.py";
 
     //orth to ipa procedure
@@ -38,7 +42,7 @@ fn main() {
         panic!("Python script did not exit with 0 status.")
     }
     // produce segmental configurations procedure
-    let syl_dir = args[2].to_string() + "\\phon_syls.txt";
+    let syl_dir = py_output_dir.to_string() + "\\phon_syls.txt";
     cmd_status = process::Command::new(&args[1])
     .args(&[&seg_config_dir, &syl_dir])
     .status()
@@ -48,7 +52,7 @@ fn main() {
         panic!("Python script did not exit with 0 status")
     }
     // finally, produce information theory docs. it takes phon_syls and phon_configs.txt as arguments
-    let configs_dir = args[2].to_string() + "\\phon_configs.txt";
+    let configs_dir = py_output_dir.to_string() + "\\phon_configs.txt";
     cmd_status = process::Command::new(&args[1])
     .args(&[&kcomp_dir, &syl_dir, &configs_dir])
     .status()
