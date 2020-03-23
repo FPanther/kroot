@@ -1,7 +1,7 @@
 # kroot
 
 ## Description
-Source code for kroot project. run 'cargo build' to produce therelevant binary, and run from cmd prompt with the required command line arguments.
+Source code for kroot project. This code produces documents for an information theoretic analysis from Kaytetye orthographic word forms.
 
 ## Installation
 Compile by running **cargo build** at the project directory.
