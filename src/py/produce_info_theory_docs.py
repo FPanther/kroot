@@ -7,7 +7,7 @@ EMAIL: forrestapanther@gmail.com
 PROJECT: Orthography to Surprisals
 SUMMARY: Retrieves the directories of  syllabified roots and a set of all possible segmental configurations as
 command line arguments, and outputs various documents. This script relies on two .py documents:
-lex_io, and info_theory_functions
+lex_io.py, and info_theory_functions.py
 """
 import sys
 import lex_io

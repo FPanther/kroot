@@ -4,7 +4,7 @@ CREATED: 16-JAN-20
 LAST EDIT: 23-MAR-20
 CREATOR: Forrest Panther
 EMAIL: forrestapanther@gmail.com
-PROJECT: Orthography to Surprisals
+PROJECT: kroot
 SUMMARY: Contains functions relevant to the information theoretic analysis of Kaytetye syllabified roots.
 FUNCTIONS:
     _update_dict

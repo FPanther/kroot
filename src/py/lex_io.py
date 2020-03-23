@@ -1,4 +1,17 @@
-# Functions relating to reading in files
+"""
+NAME: lex_io.py
+CREATED: 10-JAN-20
+LAST EDIT: 23-MAR-20
+CREATOR: Forrest Panther
+EMAIL: forrestapanther@gmail.com
+PROJECT: kroot
+SUMMARY: Contains function relating to the reading and writing of documents relevant to the information theory analysis
+        of Kaytetye roots.
+FUNCTIONS:
+    read_lexicon_file
+    read_csv
+    write_dict_to_csv
+"""
 from pathlib import Path
 import os
 import csv
