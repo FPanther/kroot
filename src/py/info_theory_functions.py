@@ -172,7 +172,7 @@ def _get_phonotactic_entropy(k_row):
         total_count = total_count + int(k_row[key])
 
     seq_probs = []
-    # if a row has 0, simply append 0 frequency. otherwise, get frequency
+    # if a row has 0, simply append 0 probabiliy. otherwise, calculate probability
     for key in k_keys:
         if total_count == 0:
             seq_probs.append(0)
@@ -181,7 +181,8 @@ def _get_phonotactic_entropy(k_row):
 
     entropy = 0
     for seq_prob in seq_probs:
-        # for probabilities greater than zero, add together individual entropy values
+        # for probabilities greater than zero, add together individual entropy values.
+        # entropy is equivalent to the sum of each surprisal times the corresponding probability
         if seq_prob > 0:
             entropy = entropy + (seq_prob * (log(seq_prob, 2) * -1))
 
