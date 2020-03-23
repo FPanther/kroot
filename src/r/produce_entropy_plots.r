@@ -1,7 +1,6 @@
 library(pacman)
-args <- c("C:\\Users\\Forrest\\Google Drive\\PhD Stuff\\Chapter Drafts\\Chapters_being_worked_on\\Minimal_Root\\it_data")
 p_load(dplyr, magrittr, stringr, stringi, tidyr, ggplot2, readr)
-#args = commandArgs(trailingOnly = T)
+args = commandArgs(trailingOnly = T)
 if(length(args) != 1) {
   stop("This script requires one argument!")
 }
