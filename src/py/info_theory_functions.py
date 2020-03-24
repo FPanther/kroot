@@ -274,6 +274,11 @@ def get_phontactic_entropies(fq_dict):
 
 
 def get_surprisals_of_lexicon(syl_lex, sur_dict_list):
+    """
+    Produces the mean surprisal value for each lexeme in syl_lex.
+    syl_lex: Syllabified lexicon
+    sur_dict_list: output from get_phonotactic_surprisals.
+    """
     out_dict_list = []
     for lexeme in syl_lex:
         lex_sylab = lexeme.split(".")
@@ -281,7 +286,7 @@ def get_surprisals_of_lexicon(syl_lex, sur_dict_list):
         out_dict = {}
         for i, syl in enumerate(lex_sylab):
             surprisal_value = surprisal_value + _get_surprisal_of_syllable(syl, i, len(lex_sylab), sur_dict_list)
-        out_dict["phoneme"] = lexeme
+        out_dict["lexeme"] = lexeme
         out_dict["mean_surprisal"] = surprisal_value / (
                 (len(lex_sylab) * 3) - 1)  # three phonotactic positions for each
         # syllable excluding final coda

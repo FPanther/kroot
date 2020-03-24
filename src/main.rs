@@ -26,12 +26,22 @@ fn main() {
     let orth_to_ipa_dir = args[3].to_string() + "\\orth_to_ipa.py";
     let kcomp_dir = args[3].to_string() + "\\produce_info_theory_docs.py";
     let seg_config_dir = args[3].to_string() + "\\produce_segmental_configurations_list.py";
+    let test_dir = args[3].to_string() + "\\test.py";
 
+    //run tests to check that script is working correctly
+    let mut cmd_status = process::Command::new(&args[1])
+    .args(&[&test_dir])
+    .status()
+    .expect("Python script could not be executed.");
+    if !cmd_status.success() {
+        println!("{:?}", cmd_status.code());
+        panic!("python script test failed.")
+    }
     //orth to ipa procedure
     let kroot_path = args[2].to_string() + "\\kroot.csv";
     let rule_path = args[2].to_string() + "\\rules.csv";
 
-    let mut cmd_status = process::Command::new(&args[1])
+    cmd_status = process::Command::new(&args[1])
     .args(&[&orth_to_ipa_dir, &kroot_path, &rule_path])
     .status()
     .expect("Python script could not be executed.");
