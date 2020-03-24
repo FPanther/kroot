@@ -19,6 +19,8 @@ src\py\orth_to_ipa.py **Receives a set of Kaytetye orthographic word forms and p
 
 src\py\produce_segmental_configurations_list.py **Produces a list of all possible segmental configurations in each syllable position (onset, nucleus, coda).**
 
+src\py\get_configurations.py **Contains the get_configurations function for produce_segmental_configurations_list.py. This function was isolated to allow for easy testing.**
+
 src\py\produce_info_theory_docs.py **Takes syllabified phonological forms and produces various documents relating to surprisals and entropy for each phonotactic position.**
 
 src\py\info_theory_functions.py **Functions for produce_info_theory_docs.py.**
