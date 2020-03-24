@@ -48,7 +48,7 @@ assert test_lex_surp[5]['mean_surprisal'] == ((log(1/6, 2) * -1) + (log(4/6, 2) 
 print("Test 3 was successful!!")
 
 #test 4: get_phonotactic_entropy
-print("Test 4: phonotactic entropy")
+print("Test 4: phonotactic entropy...")
 test_entropies = itf.get_phontactic_entropies(test_phonotac_freq)
 assert test_entropies[0]['entropy'] == ((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6)
 assert test_entropies[1]['entropy'] == ((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6)
