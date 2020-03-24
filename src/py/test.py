@@ -61,13 +61,15 @@ print("Test 4 was successful!")
 print("Test 5: phonotactic entropy...")
 test_entropies = itf.get_phontactic_entropies(test_phonotac_freq)
 # round assertions to make sure that random rounding doesnt affect 
-assert round(test_entropies[0]['entropy'], 7) == round(((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7)
-assert round(test_entropies[1]['entropy'], 7) == round(((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7)
-assert round(test_entropies[2]['entropy'], 7) == round(((log(5/6, 2) * -1) * 5/6) + ((log(1/6, 2) * -1) * 1/6), 7)
-assert round(test_entropies[3]['entropy'], 7) == round(((log(1/6, 2) * -1) * 1/6) + ((log(2/6, 2) * -1) * 2/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7)
-assert round(test_entropies[4]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7)
-assert round(test_entropies[5]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7)
-assert round(test_entropies[6]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7)
-assert round(test_entropies[9]['entropy'], 7) == round(((log(6/6, 2) * -1) * 6/6), 7)
+assert round(test_entropies[0]['entropy'], 7) == round(((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7), "Incorrect entropy value!"
+assert round(test_entropies[1]['entropy'], 7) == round(((log(4/6, 2) * -1) * 4/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7), "Incorrect entropy value!"
+assert round(test_entropies[2]['entropy'], 7) == round(((log(5/6, 2) * -1) * 5/6) + ((log(1/6, 2) * -1) * 1/6), 7), "Incorrect entropy value!"
+assert round(test_entropies[3]['entropy'], 7) == round(((log(1/6, 2) * -1) * 1/6) + ((log(2/6, 2) * -1) * 2/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6) + ((log(1/6, 2) * -1) * 1/6), 7), "Incorrect entropy value!"
+assert round(test_entropies[4]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7), "Incorrect entropy value!"
+assert round(test_entropies[5]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7), "Incorrect entropy value!"
+assert round(test_entropies[6]['entropy'], 7) == round(((log(1/2, 2) * -1) * 1/2) + ((log(1/2, 2) * -1) * 1/2), 7), "Incorrect entropy value!"
+assert round(test_entropies[9]['entropy'], 7) == round(((log(6/6, 2) * -1) * 6/6), 7), "Incorrect entropy value!"
 print("Test 5 was successful!")
-print("No assertion errors were raised during testing. Testing was successful.")
+
+# Final testing message after no assertion errors have occurred.
+print("No assertion errors were raised during testing.")
