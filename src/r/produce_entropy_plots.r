@@ -7,6 +7,7 @@
 #          is not called by main.rs, and needs to be run independently. It takes as its argument the same folder as the 
 #          second argument for kroot.exe.
 # EXAMPLE CALL: rscript C:\kroot\src\\r\produce_entropy_plots.r C:\docs\kroot_docs
+args <- "C:\\Users\\Forrest\\Google Drive\\PhD Stuff\\Chapter Drafts\\Chapters_being_worked_on\\Minimal_Root\\it_data"
 library(pacman)
 p_load(dplyr, magrittr, stringr, stringi, tidyr, ggplot2, readr)
 args = commandArgs(trailingOnly = T)
@@ -140,4 +141,52 @@ ent_gg <- ggplot(vc_tab, aes(x = vowel_counts, y = V2)) +
   ylab("Shannon Entropy")
 ggsave(paste0(args[1], "\\r_plots\\vowel_count_entropy.png"))
 write_csv(cat_tab, paste0(args[1], "\\r_tables\\category_frequencies.csv"))
+
+# STEP 4: Produce syllable templates
+syl_temps <- sur_tab$lexeme %>% 
+  stri_replace_all_fixed(".", "") %>% 
+  stri_replace_all_regex("[\u0259\u0250iu]", "V") %>% 
+  stri_replace_all_regex("[^\u0259\u0250iuV:]+", "C") %>%
+  table() %>%
+  data.frame(stringsAsFactors = F) %>%
+  mutate(proport = Freq / sum(Freq),
+         num_syls = stri_count_fixed(., "V"))
+syl_temps$. <- syl_temps$. %>% as.character()
+# create summarised set
+syl_sizes <- syl_temps$num_syls %>% unique()
+for (syl_size in syl_sizes) {
+  syl_set <- syl_temps[syl_temps$num_syls == syl_size,]
+  in_row <- c("Total", sum(as.numeric(syl_set$Freq)), sum(as.numeric(syl_set$proport)), syl_set$num_syls[1])
+  syl_temps[nrow(syl_temps)+1,] <- in_row
+}
+# save
+write_csv(syl_temps, paste0(args[1], "\\r_tables\\syl_templates.csv"))
           
+# STEP 5: Produce output statements for statistics relevant to K. phonotactics
+  # Number of vowel-initial forms with proportion
+paste0("Beginning with a vowel: ", length(sur_tab$cat[grepl("V", sur_tab$cat)]), "/", length(sur_tab$cat), "(", length(sur_tab$cat[grepl("V", sur_tab$cat)]) / length(sur_tab$cat), ")")
+paste0("Beginning with low vowel \u0250: ", length(sur_tab$lexeme[grepl("^\u0250", sur_tab$lexeme)]), "(", length(sur_tab$lexeme[grepl("^\u0250", sur_tab$lexeme)]) / length(sur_tab$lexeme), ")")
+paste0("Beginning with schwa \u0259: ", length(sur_tab$lexeme[grepl("^\u0259", sur_tab$lexeme)]), "(", length(sur_tab$lexeme[grepl("^\u0259", sur_tab$lexeme)]) / length(sur_tab$lexeme), ")")
+paste0("Beginning with i: ", length(sur_tab$lexeme[grepl("^i", sur_tab$lexeme)]), "(", length(sur_tab$lexeme[grepl("^i", sur_tab$lexeme)]) / length(sur_tab$lexeme), ")")
+paste0("Beginning with u: ", length(sur_tab$lexeme[grepl("^u", sur_tab$lexeme)]), "(", length(sur_tab$lexeme[grepl("^u", sur_tab$lexeme)]) / length(sur_tab$lexeme), ")")
+paste0("Beginning with a consonant: ", length(sur_tab$cat[grepl("C", sur_tab$cat)]), "/", length(sur_tab$cat), "(", length(sur_tab$cat[grepl("C", sur_tab$cat)]) / length(sur_tab$cat), ")")
+positional_configs <- read_csv(paste0(args[1], "\\py_outputs\\phonotactic_fqs.csv"))
+# Initial phonotactics
+initial_row <- positional_configs[1,]
+initial_row <- initial_row[2:length(initial_row)] %>% as.numeric()
+seg_set <- colnames(positional_configs)
+seg_set <- seg_set[2:length(seg_set)]
+initial_conss <- seg_set[initial_row > 0]
+initial_conss <- initial_conss[!grepl("0", initial_conss)]
+paste0("Number of initial consonantal configurations: ", length(initial_conss))
+paste0("Number of singleton consonantal configurations: ", length(initial_conss[str_length(initial_conss) < 2]))
+
+# Final phonotactics
+last_row <- positional_configs[length(positional_configs$syllable)-1, 2:length(positional_configs)] %>% as.numeric()
+last_nucleus <- seg_set[last_row > 0]
+paste0("Frequency of final schwa ", last_row[seg_set == "\u0259"], " (", last_row[seg_set == "\u0259"]/sum(last_row), ")")
+paste0("Frequency of final u ", last_row[seg_set == "u"], " (", last_row[seg_set == "u"]/sum(last_row), ")")
+paste0("Frequency of final u: ", last_row[seg_set == "u:"], " (", last_row[seg_set == "u:"]/sum(last_row), ")")
+paste0("Frequency of final i ", last_row[seg_set == "i"], " (", last_row[seg_set == "i"]/sum(last_row), ")")
+paste0("Frequency of final i: ", last_row[seg_set == "i:"], " (", last_row[seg_set == "i:"]/sum(last_row), ")")
+
