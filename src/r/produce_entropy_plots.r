@@ -31,11 +31,11 @@ write_csv(ent_tb, paste0(args[1], "\\r_tables\\entropy_tab.csv"))
 
 # STEP 2: CREATE WORD SURPRISAL PLOTS
 sur_tab <- readr::read_csv(paste0(args[1], "\\py_outputs\\lexical_surprisals.csv"))
-sur_tab$phoneme <- sur_tab$phoneme
-sur_tab<- sur_tab %>% mutate(vowel_count = stri_count_regex(phoneme, "[\u0250\u0259iIuU]"),
-                             vowel_initial = grepl("^[\u0250\u0259iIuU]", phoneme))
+sur_tab$lexeme <- sur_tab$lexeme
+sur_tab<- sur_tab %>% mutate(vowel_count = stri_count_regex(lexeme, "[\u0250\u0259iIuU]"),
+                             vowel_initial = grepl("^[\u0250\u0259iIuU]", lexeme))
 cat <- vector()
-for(i in 1:length(sur_tab$phoneme)) {
+for(i in 1:length(sur_tab$lexeme)) {
   cat <- c(cat, paste0(sur_tab$vowel_initial[i], sur_tab$vowel_count[i], collapse = "_"))
 }
 cat <- cat %>% stri_replace_all_fixed("TRUE", "V_") %>% stri_replace_all_fixed("FALSE", "C_")
