@@ -13,6 +13,10 @@ args = commandArgs(trailingOnly = T)
 if(length(args) != 1) {
   stop("This script requires one argument!")
 }
+# Create r_plots and r_tables if they don't exist
+dir.create(file.path(args[1], "\\r_plots"), showWarnings = F)
+dir.create(file.path(args[1], "\\r_tables"), showWarnings = F)
+
 ent_tb <- read_csv(paste0(args[1], "\\py_outputs\\phonological_entropy.csv"))
 # STEP 1: CREATE POSITIONAL ENTROPY PLOT
 label_names <- vector()
