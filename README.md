@@ -29,7 +29,7 @@ src\py\lex_io.py **Document reading and writing functions for produce_info_theor
 
 src\py\test.py **Test document.**
 
-src\r\produce_entropy_plots.r **Produces plots for information theory analysis.**
+src\r\produce_entropy_plots.r **Produces plots and tables for information theory analysis.**
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/). Relevant attributions are stated in the source files.
