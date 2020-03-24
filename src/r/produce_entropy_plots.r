@@ -1,3 +1,12 @@
+# NAME: produce_entropy_plots.r
+# DATE: 22-MAR-20
+# LAST EDIT: 24-MAR-20
+# AUTHOR: Forrest Panther (forrestapanther@gmail.com)
+# PROJECT: kroot
+# SUMMARY: Produces several plots and data tables based on the output from the python functions in this project. This script
+#          is not called by main.rs, and needs to be run independently. It takes as its argument the same folder as the 
+#          second argument for kroot.exe.
+# EXAMPLE CALL: rscript C:\kroot\src\\r\produce_entropy_plots.r C:\docs\kroot_docs
 library(pacman)
 p_load(dplyr, magrittr, stringr, stringi, tidyr, ggplot2, readr)
 args = commandArgs(trailingOnly = T)
