@@ -14,7 +14,7 @@ use std::fs;
 
 fn main() {
    let args: Vec<String> = env::args().collect();
-   // confirm that there are two command line argument
+   // confirm that there are three command line argument
     if args.len() != 4 {
         panic!("Wrong number of command line arguments!")
     }

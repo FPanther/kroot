@@ -10,7 +10,7 @@
 args <- "C:\\Users\\Forrest\\Google Drive\\PhD Stuff\\Chapter Drafts\\Chapters_being_worked_on\\Minimal_Root\\it_data"
 library(pacman)
 p_load(dplyr, magrittr, stringr, stringi, tidyr, ggplot2, readr)
-args = commandArgs(trailingOnly = T)
+#args = commandArgs(trailingOnly = T)
 if(length(args) != 1) {
   stop("This script requires one argument!")
 }
@@ -140,7 +140,7 @@ ent_gg <- ggplot(vc_tab, aes(x = vowel_counts, y = V2)) +
   xlab("Syllable") + 
   ylab("Shannon Entropy")
 ggsave(paste0(args[1], "\\r_plots\\vowel_count_entropy.png"))
-write_csv(cat_tab, paste0(args[1], "\\r_tables\\category_frequencies.csv"))
+write_csv(cat_tab, paste0(args[1], "\\r_tables\\category_frequencies_with_sum_entropy.csv"))
 
 # STEP 4: Produce syllable templates
 syl_temps <- sur_tab$lexeme %>% 
@@ -161,8 +161,17 @@ for (syl_size in syl_sizes) {
 }
 # save
 write_csv(syl_temps, paste0(args[1], "\\r_tables\\syl_templates.csv"))
+
+# STEP 5: Produce 10 lowest mean surprisals and 10 highest mean surprisals in lexicon (removing duplicates)
+sur_tab_uniq <- sur_tab[!duplicated(sur_tab$lexeme),]
+sur_tab_uniq <- sur_tab_uniq[order(sur_tab_uniq$mean_surprisal),]
+  #get 10 top rows and 10 bottom rows
+lowest_surs <- sur_tab_uniq[1:10,]
+highest_surs <- sur_tab_uniq[(nrow(sur_tab_uniq)-9):nrow(sur_tab_uniq),]
+out_surs <- bind_rows(lowest_surs, highest_surs)
+write_csv(out_surs, paste0(args[1], "\\r_tables\\highest_lowest_surs_tab.csv"))
           
-# STEP 5: Produce output statements for statistics relevant to K. phonotactics
+# STEP 6: Produce output statements for statistics relevant to K. phonotactics
   # Number of vowel-initial forms with proportion
 paste0("Beginning with a vowel: ", length(sur_tab$cat[grepl("V", sur_tab$cat)]), "/", length(sur_tab$cat), "(", length(sur_tab$cat[grepl("V", sur_tab$cat)]) / length(sur_tab$cat), ")")
 paste0("Beginning with low vowel \u0250: ", length(sur_tab$lexeme[grepl("^\u0250", sur_tab$lexeme)]), "(", length(sur_tab$lexeme[grepl("^\u0250", sur_tab$lexeme)]) / length(sur_tab$lexeme), ")")
