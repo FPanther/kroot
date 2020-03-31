@@ -7,10 +7,9 @@
 #          is not called by main.rs, and needs to be run independently. It takes as its argument the same folder as the 
 #          second argument for kroot.exe.
 # EXAMPLE CALL: rscript C:\kroot\src\\r\produce_entropy_plots.r C:\docs\kroot_docs
-args <- "C:\\Users\\Forrest\\Google Drive\\PhD Stuff\\Chapter Drafts\\Chapters_being_worked_on\\Minimal_Root\\it_data"
 library(pacman)
 p_load(dplyr, magrittr, stringr, stringi, tidyr, ggplot2, readr)
-#args = commandArgs(trailingOnly = T)
+args = commandArgs(trailingOnly = T)
 if(length(args) != 1) {
   stop("This script requires one argument!")
 }
