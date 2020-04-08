@@ -27,7 +27,7 @@ src\py\info_theory_functions.py **Functions for produce_info_theory_docs.py.**
 
 src\py\lex_io.py **Document reading and writing functions for produce_info_theory_docs.py.**
 
-src\py\test.py **Test document.**
+src\py\test.py **Test python scripts. This is called by main.rs.**
 
 src\r\produce_entropy_plots.r **Produces plots and tables for information theory analysis.**
 
