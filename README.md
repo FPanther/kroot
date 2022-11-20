@@ -1,6 +1,9 @@
 # kroot
 
 ## Description
+
+NOTE: This analysis is outdated and will be updated soon.
+
 Source code for kroot project. This code produces documents for an information theoretic analysis from Kaytetye orthographic word forms.
 
 ## Installation
